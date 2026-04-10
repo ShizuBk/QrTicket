@@ -1,0 +1,417 @@
+:root { 
+    --primary: #0078d4; 
+    --success: #27ae60;
+    --danger: #e74c3c; 
+    --dark: #201f1e; 
+    --white: #ffffff;
+    --overlay: rgba(0, 0, 0, 0.6); 
+}
+
+
+:root { 
+    --primary: #0078d4; 
+    --white: #ffffff;
+    --overlay: rgba(0, 0, 0, 0.6); 
+}
+
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background-image: linear-gradient(var(--overlay), var(--overlay)), url('../assets/images/fondo-partenon.jpg');
+    background-size: cover; 
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    min-height: 100vh;
+    padding: 60px 20px; 
+    box-sizing: border-box;
+    overflow-y: auto; 
+}
+
+
+.index-container {
+    width: 98%;
+    max-width: 1400px;
+    margin-top: -5vh; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-header h1 {
+    color: var(--white);
+    font-size: 3rem; 
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+    margin: 0 0 5px 0;
+}
+
+.hero-header p {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0 0 30px 0;
+}
+
+
+.tarifas-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px; 
+    width: 100%;
+}
+
+.tarifa-card {
+    flex: 1;
+    min-width: 0;
+    background: rgba(0, 120, 212, 0.9);
+    color: var(--white);
+    padding: 20px 15px; 
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-height: 320px; 
+}
+
+.tarifa-card.destaque-especial {
+    background: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--white);
+}
+
+.tarifa-card.destaque-especial * { color: var(--primary) !important; }
+
+.tarifa-card h3 { 
+    font-size: 1.1rem; 
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.tarifa-card .price { 
+    font-size: 2rem; 
+    font-weight: bold; 
+    margin: 10px 0; 
+}
+
+.tarifa-card p {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.btn-card, .btn-card-blue {
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-card { background: var(--white); color: var(--primary); }
+
+.tarifa-card.destaque-especial .btn-card-blue {
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+    border: none;
+}
+
+.tarifa-card.destaque-especial .btn-card-blue:hover {
+    background-color: #005a9e !important; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tarifa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+
+
+@media (max-width: 800px) {
+    body {
+        overflow-y: auto !important; 
+        height: auto; 
+        align-items: flex-start;
+        padding: 40px 20px;
+    }
+
+    .index-container {
+        margin-top: 0; 
+    }
+
+    .tarifas-grid {
+        flex-wrap: wrap; 
+        gap: 20px;
+    }
+
+    .tarifa-card {
+        flex: none;
+        width: 100%;
+        min-height: auto; 
+    }
+
+    .hero-header h1 {
+        font-size: 2.2rem;
+    }
+}
+
+
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background-image: linear-gradient(var(--overlay), var(--overlay)), url('../assets/images/fondo-partenon.jpg');
+    background-size: cover; 
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.checkout-container { 
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 40px; 
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+    margin: 0 auto;
+}
+
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.ticket-row:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.ticket-info label {
+    display: block;
+    font-weight: bold;
+    color: var(--dark);
+    font-size: 1rem;
+}
+
+.ticket-info span {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+
+.qty-input {
+    width: 70px !important; 
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid var(--primary) !important;
+    background: white;
+}
+
+.col-datos { 
+    flex: 1.5; 
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-pago { 
+    flex: 0.8;
+    min-width: 300px; 
+    position: sticky; 
+    top: 20px;
+    background: rgba(255, 255, 255, 0.4); 
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.nav-link { 
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.header-ticket { text-align: left; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+.header-ticket h2 { margin: 0; color: var(--dark); font-size: 1.6rem; }
+
+.section-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin: 20px 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-grid { 
+    display: grid; 
+    grid-template-columns: 2fr 1.2fr 1.2fr; 
+    gap: 20px; 
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--dark);
+}
+
+#contenedorAsistentes {
+    max-height: 280px; 
+    overflow-y: auto;
+    background: rgba(0,0,0,0.05);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.asistente-row {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--primary);
+}
+
+.asistente-row .input-grid {
+    grid-template-columns: 2.5fr 1.5fr 45px; 
+    gap: 15px;
+    align-items: flex-end;
+}
+
+
+.btn-eliminar {
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 38px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-eliminar:hover { background: #c0392b; }
+
+.btn-add {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px dashed var(--primary);
+    color: var(--primary);
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+input, select { 
+    width: 100%; 
+    padding: 11px; 
+    border: 1px solid rgba(0, 0, 0, 0.3); 
+    border-radius: 6px; 
+    font-size: 0.85rem;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+
+.card-simulation {
+    margin-bottom: 35px;
+}
+
+.card-simulation .input-grid {
+    grid-template-columns: 100px 80px;
+    gap: 20px;
+}
+
+.payment-box {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.summary-row.total { 
+    font-weight: bold; 
+    font-size: 1.3rem; 
+    color: var(--success); 
+    border-top: 2px solid rgba(0,0,0,0.05); 
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+.btn-pay {
+    width: auto;
+    min-width: 220px;
+    display: block;
+    margin: 25px auto 0 auto; 
+    background: var(--success);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-pay:hover {
+    background: #219150;
+    transform: scale(1.02);
+}
+
+.nav-link { 
+    flex-basis: 100%; 
+    text-align: center; 
+    margin-top: 15px; 
+    color: var(--primary); 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-weight: 600;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 15px;
+}
