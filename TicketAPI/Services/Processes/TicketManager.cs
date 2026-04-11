@@ -1,24 +1,46 @@
-﻿using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
+﻿using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
-using iText.Layout.Properties;
-using iText.Kernel.Geom;
-using iText.Layout.Borders;
 using iText.Kernel.Font;
-using iText.IO.Font.Constants;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
-using TicketAPI.Dto;
-using System.Globalization;
+using iText.Layout;
+using iText.Layout.Borders;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using TicketAPI.Dto;
+using TicketAPI.Entities;
 
 namespace TicketAPI.Services.Processes
 {
     public class TicketManager
     {
+        private string Name;
+        private string SysPath;
+        public string SaveLocalFile(string path, byte[] pdf)
+        {
+            this.Name = $"Ticket_{DateTime.Now.Ticks}.pdf";
+            this.SysPath = $"{path}/{Name}";
+
+            File.WriteAllBytes(SysPath, pdf);
+
+            return SysPath;
+        }
+
+        public string GetFileName()
+        {
+            return this.Name;
+        }
+
+        public string GetSystemSavePath()
+        {
+            return this.SysPath;
+        }
         public byte[] CreatePDFTicket(byte[] qr, TicketDetailsDto ticketDetails)
         {
             try

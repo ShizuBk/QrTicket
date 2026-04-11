@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Desarrollador\\Desktop\\QrTicket\\TicketAPI\\TicketAPI.csproj": {}
+    "C:\\Users\\Shizu\\source\\repos\\QrTicket\\TicketAPI\\TicketAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Desarrollador\\Desktop\\QrTicket\\TicketAPI\\TicketAPI.csproj": {
+    "C:\\Users\\Shizu\\source\\repos\\QrTicket\\TicketAPI\\TicketAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Desarrollador\\Desktop\\QrTicket\\TicketAPI\\TicketAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Shizu\\source\\repos\\QrTicket\\TicketAPI\\TicketAPI.csproj",
         "projectName": "TicketAPI",
-        "projectPath": "C:\\Users\\Desarrollador\\Desktop\\QrTicket\\TicketAPI\\TicketAPI.csproj",
-        "packagesPath": "C:\\Users\\Desarrollador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Desarrollador\\Desktop\\QrTicket\\TicketAPI\\obj\\",
+        "projectPath": "C:\\Users\\Shizu\\source\\repos\\QrTicket\\TicketAPI\\TicketAPI.csproj",
+        "packagesPath": "C:\\Users\\Shizu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shizu\\source\\repos\\QrTicket\\TicketAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Desarrollador\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Shizu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,11 +50,17 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
-            "EntityFramework": {
-              "target": "Package",
-              "version": "[6.5.1, )"
-            },
             "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[10.0.5, )"
             },

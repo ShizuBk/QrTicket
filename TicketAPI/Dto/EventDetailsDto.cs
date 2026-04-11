@@ -5,6 +5,6 @@
         public Guid EventID { get; set; }
         public string EventName { get; set; }
         public DateTime EventDate { get; set; }
-        public string Fee { get; set; }
+        public int Fee { get; set; }
     }
 }

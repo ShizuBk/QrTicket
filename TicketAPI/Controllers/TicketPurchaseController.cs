@@ -3,6 +3,7 @@ using Npgsql.Replication;
 using TicketAPI.Dto;
 using TicketAPI.Interfaces;
 using TicketAPI.Services;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace TicketAPI.Controllers
 {
@@ -11,40 +12,75 @@ namespace TicketAPI.Controllers
     public class TicketPurchaseController : ControllerBase
     {
 
-        ITicketPurchaseService TicketService = new TicketPurchaseService();
-        [HttpPost("/checkout")]
-        public IActionResult Checkout([FromBody] TicketDetailsDto purchaseDetails) 
-        {
-            byte[] pdfArchivo = TicketService.GeneratePdfWithTemplate(purchaseDetails); 
+        private readonly ITicketPurchaseService _service;
 
-            if (pdfArchivo == null || pdfArchivo.Length == 0)
-            {
-                return BadRequest("Error: El servidor generó un archivo vacío.");
-            }
+        public TicketPurchaseController(ITicketPurchaseService ticketService)
+        {
+            _service = ticketService;   
+        }
+
+        [HttpPost("/checkout")]
+        public Guid Checkout([FromBody] TicketDetailsDto purchaseDetails) 
+        {
+            var ticket = _service.GeneratePdfWithTemplate(purchaseDetails); 
+
+            //if (pdfArchivo == null || pdfArchivo.Length == 0)
+            //{
+            //    return BadRequest("Error: El servidor generó un archivo vacío.");
+            //}
+
+
 
             // Forzamos el nombre con extensión y el tipo de contenido
-            return File(pdfArchivo, "application/pdf", $"Ticket_{DateTime.Now.Ticks}.pdf");
+            //
+            //return File(pdfArchivo, "application/pdf", $"Ticket_{DateTime.Now.Ticks}.pdf");
+            return ticket.Result;
         }
+
+        [HttpGet("/download")]
+        public IActionResult Download(Guid id) 
+        {
+            var result = _service.GetTicketById(id);
+
+            return File(result.Result.Data, "application/pdf", result.Result.Name);
+        }
+
+        [HttpGet("/search")]
+        public IActionResult Search(TicketSearchDto ticketSearch)
+        {
+            var result = _service.GetTicketBySearch(ticketSearch);
+
+            return File(result.Result.Data, "application/pdf", result.Result.Name);
+        }
+
         [HttpPost("/confirm")]
         public Guid ConfirmPurchase(TicketDetailsDto ticketDetails)
         {
-            var result = TicketService.ConfirmPurchase(ticketDetails);
+            var result = _service.ConfirmPurchase(ticketDetails);
             return result;
         }
 
         [HttpGet("/fees")]
-        public IEnumerable<FeeListDto> GetFees()
+        public async Task<ActionResult<List<FeesDto>>> GetFees()
         {
-            var result = TicketService.GetFeeList();
-            yield return result;
+            var result = await _service.GetFeeList();
+            return Ok(result);
         }
 
 
         [HttpGet("/events")]
-        public IEnumerable<EventDetailsResponseDto> GetEvents()
+        public async Task<ActionResult<List<EventDetailsResponseDto>>> GetEvents()
         {
-            var result = TicketService.GetEventDetails();
-            return (IEnumerable<EventDetailsResponseDto>)result;
+            var result = await _service.GetEventDetails();
+            return Ok(result);
+        }
+
+        [HttpGet("/scan/")]
+        public async Task<IActionResult> Scan(string token)
+        {
+            var result = await _service.VerifyToken(token);
+
+            return Ok(result);
         }
     }
 }

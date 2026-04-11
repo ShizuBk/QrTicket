@@ -9,10 +9,11 @@ namespace TicketAPI.Services.Processes
 {
     public class QrManager
     {
+        private string file;
         public byte[] GetQrCodeBytes(string url, TicketDetailsDto ticketDetails)
         {
-            var file = GenFile(ticketDetails);
-            var fullString = $"{url}/file/{file}";
+            file = GenFile(ticketDetails);
+            var fullString = $"{url}/{file}";
 
             var qr = QrCode.EncodeText(fullString, QrCode.Ecc.Medium);
 
@@ -21,6 +22,10 @@ namespace TicketAPI.Services.Processes
             return image;
         }
 
+        public string GetFile()
+        {
+            return file;
+        }
         private string GenFile(TicketDetailsDto ticketDetails)
         {
             ticketDetails.TitularName.ToUpper();
