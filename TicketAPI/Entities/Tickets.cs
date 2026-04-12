@@ -3,6 +3,7 @@
     public class Tickets
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
         public string File { get; set; }
         public string Titular { get; set; }
         public int AssistantNum { get; set; }

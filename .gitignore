@@ -18,3 +18,5 @@ logs/
 temp/
 tmp/
 *.cache/
+
+appsettings.json
