@@ -20,21 +20,13 @@ namespace TicketAPI.Controllers
         }
 
         [HttpPost("/checkout")]
-        public Guid Checkout([FromBody] TicketDetailsDto purchaseDetails) 
+        public IActionResult Checkout([FromBody] TicketDetailsDto purchaseDetails) 
         {
-            var ticket = _service.GeneratePdfWithTemplate(purchaseDetails); 
+            var ticketResult = _service.GeneratePdfWithTemplate(purchaseDetails).Result; 
 
-            //if (pdfArchivo == null || pdfArchivo.Length == 0)
-            //{
-            //    return BadRequest("Error: El servidor generó un archivo vacío.");
-            //}
+            var result = _service.GetTicketById(ticketResult).Result;
 
-
-
-            // Forzamos el nombre con extensión y el tipo de contenido
-            //
-            //return File(pdfArchivo, "application/pdf", $"Ticket_{DateTime.Now.Ticks}.pdf");
-            return ticket.Result;
+            return File(result.Data, "application/pdf", result.Name);
         }
 
         [HttpGet("/download")]
