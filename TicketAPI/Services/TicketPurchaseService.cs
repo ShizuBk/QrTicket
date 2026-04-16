@@ -213,6 +213,10 @@ namespace TicketAPI.Services
         {
 
             var result = await _context.Tokens.FirstOrDefaultAsync( t => t.File == file);
+
+            if (result == null)
+                return false;
+
             if (result.Token != "0000000000000000000000000000000000000000000000000000000000000000")
             {
                 result.Token = "0000000000000000000000000000000000000000000000000000000000000000";
