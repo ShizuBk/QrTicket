@@ -20,3 +20,5 @@ tmp/
 *.cache/
 
 appsettings.json
+/TicketAPI/bin
+/TicketAPI/obj
