@@ -13,3 +13,4 @@ Este proyecto consiste en un sistema para compra de boletos online generando tic
 -Se crea la Interfaz web para su uso con la API
 -Se modifica el formato de salida del ticket en PDF
 -Se agrega entity framework para la gestión de los datos con pgsql
+-Se agregó el módulo para la verificación de tickets
