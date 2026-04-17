@@ -8,12 +8,7 @@
 }
 
 
-:root { 
-    --primary: #0078d4; 
-    --white: #ffffff;
-    --overlay: rgba(0, 0, 0, 0.6); 
-}
-
+/* BODY INDEX-CHECKOUT COMPRA DE BOLETOS */
 body { 
     font-family: 'Segoe UI', sans-serif; 
     margin: 0; 
@@ -24,7 +19,7 @@ body {
     justify-content: center;
     align-items: flex-start; 
     min-height: 100vh;
-    padding: 60px 20px; 
+    padding: 5px 20px; 
     box-sizing: border-box;
     overflow-y: auto; 
 }
@@ -40,6 +35,7 @@ body {
     justify-content: center;
 }
 
+/* HEADER INDEX PARTENON ZIHUATANEJO */
 .hero-header h1 {
     color: var(--white);
     font-size: 3rem; 
@@ -54,6 +50,7 @@ body {
 }
 
 
+/* GRID TARIFAS INDEX */
 .tarifas-grid {
     display: flex;
     flex-direction: row;
@@ -102,6 +99,7 @@ body {
     margin-bottom: 15px;
 }
 
+/* BOTONES TARIFAS INDEX */
 .btn-card, .btn-card-blue {
     padding: 10px;
     text-decoration: none;
@@ -136,52 +134,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-
-
-@media (max-width: 800px) {
-    body {
-        overflow-y: auto !important; 
-        height: auto; 
-        align-items: flex-start;
-        padding: 40px 20px;
-    }
-
-    .index-container {
-        margin-top: 0; 
-    }
-
-    .tarifas-grid {
-        flex-wrap: wrap; 
-        gap: 20px;
-    }
-
-    .tarifa-card {
-        flex: none;
-        width: 100%;
-        min-height: auto; 
-    }
-
-    .hero-header h1 {
-        font-size: 2.2rem;
-    }
-}
-
-
-body { 
-    font-family: 'Segoe UI', sans-serif; 
-    margin: 0; 
-    background-image: linear-gradient(var(--overlay), var(--overlay)), url('../assets/images/fondo-partenon.jpg');
-    background-size: cover; 
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-
+/*CONTENEDOR CHECKOUT*/
 .checkout-container { 
     width: 100%;
     max-width: 1000px;
@@ -199,37 +152,7 @@ body {
     margin: 0 auto;
 }
 
-
-.ticket-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(0,0,0,0.05);
-    transition: 0.3s;
-}
-
-.ticket-row:hover {
-    background: rgba(255, 255, 255, 0.8);
-}
-
-.ticket-info label {
-    display: block;
-    font-weight: bold;
-    color: var(--dark);
-    font-size: 1rem;
-}
-
-.ticket-info span {
-    font-size: 0.85rem;
-    color: var(--primary);
-    font-weight: 600;
-}
-
-
+/*BORDE CUADRO CANTIDAD DE BOLETOS CHECKOUT*/
 .qty-input {
     width: 70px !important; 
     text-align: center;
@@ -238,6 +161,7 @@ body {
     background: white;
 }
 
+/*DATOS DE PAGO TARJETA*/
 .col-datos { 
     flex: 1.5; 
     min-width: 320px;
@@ -256,15 +180,22 @@ body {
 }
 
 .nav-link { 
-    margin-top: 30px;
-    padding-top: 20px;
+    flex-basis: 100%; 
+    text-align: center; 
+    margin-top: 15px; 
+    color: var(--primary); 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-weight: 600;
     border-top: 1px solid rgba(0,0,0,0.1);
-    width: 100%;
+    padding-top: 15px;
 }
 
+/*ENCABEZADO DATOS DE TITULAR CHECKOUT*/
 .header-ticket { text-align: left; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
 .header-ticket h2 { margin: 0; color: var(--dark); font-size: 1.6rem; }
 
+/*ENCABEZADO METODO DE PAGO*/
 .section-title {
     font-size: 0.8rem;
     font-weight: bold;
@@ -295,52 +226,6 @@ body {
     color: var(--dark);
 }
 
-#contenedorAsistentes {
-    max-height: 280px; 
-    overflow-y: auto;
-    background: rgba(0,0,0,0.05);
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.asistente-row {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid var(--primary);
-}
-
-.asistente-row .input-grid {
-    grid-template-columns: 2.5fr 1.5fr 45px; 
-    gap: 15px;
-    align-items: flex-end;
-}
-
-
-.btn-eliminar {
-    background: var(--danger);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    height: 38px;
-    font-weight: bold;
-    transition: 0.2s;
-}
-.btn-eliminar:hover { background: #c0392b; }
-
-.btn-add {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px dashed var(--primary);
-    color: var(--primary);
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
-}
 
 input, select { 
     width: 100%; 
@@ -402,16 +287,4 @@ input, select {
 .btn-pay:hover {
     background: #219150;
     transform: scale(1.02);
-}
-
-.nav-link { 
-    flex-basis: 100%; 
-    text-align: center; 
-    margin-top: 15px; 
-    color: var(--primary); 
-    text-decoration: none; 
-    font-size: 0.9rem; 
-    font-weight: 600;
-    border-top: 1px solid rgba(0,0,0,0.1);
-    padding-top: 15px;
 }
