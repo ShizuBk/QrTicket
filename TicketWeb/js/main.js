@@ -232,7 +232,7 @@ async function procesarCompra(listaAsistentes) {
         TotalAmount: parseFloat(document.getElementById('totalPrice').innerText.replace('$', ''))
     };
 
-    const response = await fetch('http://localhost:5193/checkout', {
+    const response = await fetch('http://localhost:5000/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/pdf' },
         body: JSON.stringify(pedidoFinal)

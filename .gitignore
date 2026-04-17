@@ -22,3 +22,5 @@ tmp/
 appsettings.json
 /TicketAPI/bin
 /TicketAPI/obj
+/TicketAPI/bin/Debug
+/TicketAPI/bin/Debug
