@@ -54,7 +54,7 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet("/fees")]
-        public async Task<ActionResult<List<FeesDto>>> GetFees()
+        public async Task<ActionResult<List<FeesResponseDto>>> GetFees()
         {
             var result = await _service.GetFeeList();
             return Ok(result);

@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ITicketPurchaseService, TicketPurchaseService>();
+builder.Services.AddScoped<IManagementService,ManagemetService>();
 builder.Services.AddScoped<TicketManager>(); 
 
 builder.Services.AddCors(options => {

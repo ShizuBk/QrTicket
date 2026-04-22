@@ -6,7 +6,7 @@ namespace TicketAPI.Interfaces
     public interface ITicketPurchaseService
     {
         public PurchaseDetailsResponseDto Checkout(PurchaseDetailsDto purchaseDetails);
-        public Task<List<FeesDto>> GetFeeList();
+        public Task<List<FeesResponseDto>> GetFeeList();
         public Task<List<EventDetailsResponseDto>> GetEventDetails();
         public Guid ConfirmPurchase(TicketDetailsDto ticketDetailsDto);
         public Task<Guid> GeneratePdfWithTemplate(TicketDetailsDto ticketDetails);

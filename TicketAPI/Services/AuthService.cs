@@ -2,7 +2,7 @@
 
 namespace TicketAPI.Services
 {
-    public class AccessService : IAccessService
+    public class AuthService : IAuthService
     {
     }
 }

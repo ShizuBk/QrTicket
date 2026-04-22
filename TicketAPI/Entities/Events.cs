@@ -9,5 +9,7 @@
         public int Fee { get; set; }
         public DateTime SysDate { get; set; }   
         public DateTime SysUpdate {  get; set; }
+        public bool SysVisible { get; set; }
+        public bool SysEnabled { get; set; }
     }
 }

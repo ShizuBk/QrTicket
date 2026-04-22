@@ -13,6 +13,8 @@ namespace TicketAPI.Data
         public DbSet<Tickets> Tickets { get; set; }
         public DbSet<Tokens> Tokens { get; set; }
         public DbSet<LocalConfig > LocalConfig { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<AuthLevel> AuthLevel { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

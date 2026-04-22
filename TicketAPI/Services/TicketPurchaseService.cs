@@ -174,7 +174,7 @@ namespace TicketAPI.Services
         }
 
 
-        async Task<List<FeesDto>> ITicketPurchaseService.GetFeeList()
+        async Task<List<FeesResponseDto>> ITicketPurchaseService.GetFeeList()
         {
 
             var result = await _context.Fees
@@ -182,7 +182,7 @@ namespace TicketAPI.Services
                 .ToListAsync();
 
 
-            var list = result.Select(e => new FeesDto
+            var list = result.Select(e => new FeesResponseDto
             {
                 Fee = e.Fee,
                 Id = e.Id,
@@ -201,8 +201,9 @@ namespace TicketAPI.Services
             var list = result.Select(e => new EventDetailsResponseDto
             {
                 EventDate = e.EventDate,
-                EventID = e.Id,
-                EventName = e.Name,
+                Id = e.Id,
+                Details = e.Details,
+                Name = e.Name,
                 Fee = e.Fee
             }).ToList();
 

@@ -1,6 +1,6 @@
 ﻿namespace TicketAPI.Interfaces
 {
-    public interface IAccessService
+    public interface IAuthService
     {
     }
 }
