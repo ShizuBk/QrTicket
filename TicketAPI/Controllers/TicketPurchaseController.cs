@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Npgsql.Replication;
 using System.Text.Encodings.Web;
 using TicketAPI.Dto;
@@ -21,29 +22,56 @@ namespace TicketAPI.Controllers
         }
 
         [HttpPost("/checkout")]
-        public IActionResult Checkout([FromBody] TicketDetailsDto purchaseDetails) 
+        public async Task<IActionResult> Checkout([FromBody] TicketDetailsDto purchaseDetails) 
         {
-            var ticketResult = _service.GeneratePdfWithTemplate(purchaseDetails).Result; 
+            try
+            {
+                var ticketResult = _service.GeneratePdfWithTemplate(purchaseDetails).Result;
 
-            var result = _service.GetTicketById(ticketResult).Result;
+                var result = _service.GetTicketById(ticketResult).Result;
 
-            return File(result.Data, "application/pdf", result.Name);
+                return File(result.Data, "application/pdf", result.Name);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpGet("/download")]
         public IActionResult Download(Guid id) 
         {
-            var result = _service.GetTicketById(id);
+            try
+            {
+                var result = _service.GetTicketById(id);
 
-            return File(result.Result.Data, "application/pdf", result.Result.Name);
+                if(result == null)
+                    return NotFound();
+
+                return File(result.Result.Data, "application/pdf", result.Result.Name);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpGet("/search")]
         public IActionResult Search(TicketSearchDto ticketSearch)
         {
-            var result = _service.GetTicketBySearch(ticketSearch);
+            try
+            {
+                var result = _service.GetTicketBySearch(ticketSearch);
 
-            return File(result.Result.Data, "application/pdf", result.Result.Name);
+                if (result == null)
+                    return NotFound("No se encontró el ticket buscado");
+
+                return File(result.Result.Data, "application/pdf", result.Result.Name);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPost("/confirm")]
@@ -54,30 +82,59 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet("/fees")]
-        public async Task<ActionResult<List<FeesResponseDto>>> GetFees()
+        public async Task<IActionResult> GetFees()
         {
-            var result = await _service.GetFeeList();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetFeeList();
+
+                if(result == null || result.Any())
+                    return NotFound("No hay tarifas declaradas");
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
 
         [HttpGet("/events")]
-        public async Task<ActionResult<List<EventDetailsResponseDto>>> GetEvents()
+        public async Task<IActionResult> GetEvents()
         {
-            var result = await _service.GetEventDetails();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetEventDetails();
+
+                if (result == null || result.Any())
+                    return NotFound("No hay eventos disponibles");
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpGet("/scan/{file}")]
         public async Task<IActionResult> Scan(string file)
         {
-            var result = await _service.VerifyToken(file);
-            var page = GenValidationPage(result,file);
+            try
+            {
+                var result = await _service.VerifyToken(file);
+                var page = GenValidationPage(result, file);
 
-            var acceptHeader = Request.Headers.Accept;
-            Response.ContentType = "text/html; charset=utf-8";
+                var acceptHeader = Request.Headers.Accept;
+                Response.ContentType = "text/html; charset=utf-8";
 
-            return Content(page,"text/html");
+                return Content(page, "text/html");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         private string GenValidationPage(bool valid, string file)

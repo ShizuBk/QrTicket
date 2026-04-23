@@ -14,11 +14,15 @@ namespace TicketAPI.Services
     public class ManagemetService : IManagementService
     {
         private readonly ApplicationDbContext _context;
+        public ManagemetService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public async Task DeleteEvent(EventDeleteDto dto)
         {
             var result = await _context.Events.Where( e => e.Id == dto.Id ).FirstOrDefaultAsync();
             result.SysEnabled = false;
-            result.SysUpdate = DateTime.Now;
+            result.SysUpdate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }
@@ -28,7 +32,7 @@ namespace TicketAPI.Services
             var result = await _context.Fees.Where(e => e.Id == dto.Id).FirstOrDefaultAsync();
             result.SysEnabled = false;
             result.SysVisible = false;
-            result.SysUpdate = DateTime.Now;
+            result.SysUpdate = DateTime.UtcNow;
             
             await _context.SaveChangesAsync();
         }
@@ -38,63 +42,106 @@ namespace TicketAPI.Services
             var result = await _context.Users.Where( e => e.Id != dto.Id ).FirstOrDefaultAsync();
             result.SysVisible = false;
             result.SysEnabled = false;
-            result.SysUpdate = DateTime.Now;
+            result.SysUpdate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }
 
         public Task<List<EventDetailsResponseDto>> GetEvents()
         {
-            var result = _context.Events.AsNoTracking().ToList();
-            var response = result.ToDtoList();
+            try
+            {
+                var result = _context.Events.AsNoTracking().ToList();
 
-            return Task.FromResult(response);
+                if (result == null)
+                    return null;
+
+                var response = result.ToDtoList();
+
+                return Task.FromResult(response);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public Task<List<FeesResponseDto>> GetFees()
         {
-            var result = _context.Fees.AsNoTracking().ToList();
-            var response = result.ToDtoList();
+            try
+            {
+                var result = _context.Fees.AsNoTracking().ToList();
 
-            return Task.FromResult(response);
+                if (result == null)
+                    return null;
+
+                var response = result.ToDtoList();
+
+                return Task.FromResult(response);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Task<List<UserResponseDto>> GetUsers()
         {
-            var result = _context.Users.AsNoTracking().ToList();
-            var authLevels = _context.AuthLevel.AsNoTracking().ToList();
-            List<UserResponseDto> response = new();
-            foreach(var user in result)
+            try
             {
-                response.Add(new UserResponseDto
+                var result = _context.Users.AsNoTracking().ToList();
+                var authLevels = _context.AuthLevel.AsNoTracking().ToList();
+                List<UserResponseDto> response = new();
+                foreach (var user in result)
                 {
-                   Name = user.Name,
-                   LastName = user.LastName,
-                   Surname = user.Surname,
-                   UserName = user.UserName,
-                   AuthLevel = authLevels
-                   .Where(e => e.Id == user.Id)
-                   .Select(e => e.Level)
-                   .First(),
-                });
-            }
+                    response.Add(new UserResponseDto
+                    {
+                        Name = user.Name,
+                        LastName = user.LastName,
+                        Surname = user.Surname,
+                        UserName = user.UserName,
+                        AuthLevel = authLevels
+                       .Where(e => e.Id == user.Id)
+                       .Select(e => e.Level)
+                       .First(),
+                    });
+                }
 
-            return Task.FromResult(response);
+                return Task.FromResult(response);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task NewEvent(EventDetailsPostDto eventDetails)
         {
             var result = eventDetails.ToEntity();
+
+            result.SysVisible = true;
+            result.SysEnabled = true;
+            result.SysDate = DateTime.UtcNow;
+            result.SysUpdate = DateTime.UtcNow;
+
             await _context.Events.AddAsync(result);
+            await _context.SaveChangesAsync();
         }
 
         public async Task NewFee(FeePostDto fees)
         {
             var result = fees.ToEntity();
+
+            result.SysVisible = true;
+            result.SysEnabled = true;
+            result.SysDate = DateTime.UtcNow;
+            result.SysUpdate = DateTime.UtcNow;
+
             await _context.Fees.AddAsync(result);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<UserResponseDto> NewUser(NewUserDto dto)
+        public async Task<UserResponseDto> NewUser(NewUserDto dto)
         {
             var authLevels = _context.AuthLevel.AsNoTracking().ToList();
             var entity = new Users
@@ -106,15 +153,16 @@ namespace TicketAPI.Services
                 Password = dto.Password,
                 Surname = dto.Surname,
                 SysVisible = true,
-                SysUpdate = DateTime.Now,
-                SysDate = DateTime.Now,
+                SysUpdate = DateTime.UtcNow,
+                SysDate = DateTime.UtcNow,
                 AuthLevel = dto.AuthLevel,
                 UserName = GenUserName(dto)
             };
 
-            _context.Users.Add(entity);
+            await _context.Users.AddAsync(entity);
+            await _context.SaveChangesAsync();
 
-            return Task.FromResult(new UserResponseDto
+            return new UserResponseDto
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
@@ -122,7 +170,7 @@ namespace TicketAPI.Services
                 UserName = entity.UserName,
                 AuthLevel = authLevels.Where(e => e.Id == dto.AuthLevel)
                 .Select(e => e.Level).First()
-            });
+            };
         }
 
         private string GenUserName(NewUserDto dto)
@@ -153,7 +201,7 @@ namespace TicketAPI.Services
             result.LastName = dto.LastName;
             result.Password = dto.Password;
             result.Surname = dto.Surname;
-            result.SysUpdate = DateTime.Now;
+            result.SysUpdate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }
@@ -166,7 +214,7 @@ namespace TicketAPI.Services
             result.Fee = eventDetails.Fee;
             result.Details = eventDetails.Details;
             result.Name = eventDetails.Name;
-            result.SysUpdate = DateTime.Now;
+            result.SysUpdate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }

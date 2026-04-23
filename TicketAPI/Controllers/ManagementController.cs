@@ -17,89 +17,185 @@ namespace TicketAPI.Controllers
 
         // Mnejo de tarifas
         [HttpGet("managemet/fees")]
-        public async Task<ActionResult<List<FeesResponseDto>>> GetFees()
+        public async Task<IActionResult> GetFees()
         {
-            var result = await _service.GetFees();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetFees();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException)
+                    return NotFound("No hay tarifas declaradas");
+
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPost("management/new_fee")]
         public async Task<IActionResult> NewFee(FeePostDto fees)
         {
-            await _service.NewFee(fees);
-            return Ok();
+            try
+            {
+                await _service.NewFee(fees);
+                return Ok();
+            }
+            catch(Exception ex) 
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPatch("management/update_fee")]
         public async Task<IActionResult> UpdteFee(FeesUpdateDto fees)
         {
-            await _service.UpdateFees(fees);
-            return Ok();
+            try
+            {
+                await _service.UpdateFees(fees);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpDelete("management/delete_fee")]
         public async Task<IActionResult> DeleteFee(FeesDeleteDto dto)
         {
-            await _service.DeleteFee(dto);
-            return Ok();
+            try
+            {
+                await _service.DeleteFee(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         //Manejo de eventos
         [HttpGet("managemet/events")]
-        public async Task<ActionResult<List<EventDetailsResponseDto>>> GetEvents()
+        public async Task<IActionResult> GetEvents()
         {
-            var result = await _service.GetEvents();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetEvents();
+
+                return Ok(result);
+            }
+            catch(Exception ex) 
+            {
+                if (ex is NullReferenceException)
+                    return NotFound("No hay eventos disponibles");
+
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPost("management/new_event")]
         public async Task<IActionResult> NewEvent(EventDetailsPostDto eventDetails)
         {
-            await _service.NewEvent(eventDetails);
-            return Ok();
+            try
+            {
+                await _service.NewEvent(eventDetails);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPatch("maanagement/update_event")]
         public async Task<IActionResult> UpdateEvent(EventDetailsUpdateDto eventDetails)
         {
-            await _service.UpdatEvent(eventDetails);
-            return Ok();
+            try
+            {
+                await _service.UpdatEvent(eventDetails);
+                return Ok();
+            }
+            catch(Exception ex) 
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpDelete("management/delete_event")]
         public async Task<IActionResult> DeleteEvent(EventDeleteDto dto)
         {
-            await _service.DeleteEvent(dto);
-            return Ok();
+            try
+            {
+                await _service.DeleteEvent(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         //Manejo de usuarios
         [HttpPost("management/new_user")]
-        public async Task<UserResponseDto> NewUser(NewUserDto dto)
+        public async Task<IActionResult> NewUser(NewUserDto dto)
         {
-            var result = await _service.NewUser(dto);
-            return result;
+            try
+            {
+                var result = await _service.NewUser(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpGet("management/users")]
-        public async Task<List<UserResponseDto>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            var result = await _service.GetUsers();
-            return result;
+            try
+            {
+                var result = await _service.GetUsers();
+
+                return Ok(result);
+            }
+            catch(Exception ex) 
+            {
+                if (ex is NullReferenceException)
+                    return NotFound("No hy usuarios registrados");
+
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpPatch("management/update_user")]
         public async Task<IActionResult> UpdateUser(UserUpdateDto dto)
         {
-            await _service.UpdateUser(dto);
-            return Ok();
+            try
+            {
+                await _service.UpdateUser(dto);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
 
         [HttpDelete("management/delete_user")]
         public async Task<IActionResult> DeleteUser(UserDeleteDto dto)
         {
-            await _service.DeleteUser(dto);
-            return Ok();
+            try
+            {
+                await _service.DeleteUser(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
     }
 }
