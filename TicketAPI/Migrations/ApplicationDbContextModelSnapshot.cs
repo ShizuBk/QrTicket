@@ -29,11 +29,9 @@ namespace TicketAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Level")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -47,18 +45,19 @@ namespace TicketAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Details")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Fee")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Fee")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("SysDate")
@@ -84,8 +83,8 @@ namespace TicketAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Fee")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Fee")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("SysDate")
                         .HasColumnType("timestamp with time zone");
@@ -100,7 +99,6 @@ namespace TicketAPI.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -115,11 +113,9 @@ namespace TicketAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Device")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Port")
@@ -137,7 +133,6 @@ namespace TicketAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("FeeType")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("TicketId")
@@ -157,26 +152,30 @@ namespace TicketAPI.Migrations
                     b.Property<int>("AssistantNum")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Fee")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("File")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SysPath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Titular")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Tickets");
                 });
@@ -188,14 +187,17 @@ namespace TicketAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("File")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Token")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
 
                     b.ToTable("Tokens");
                 });
@@ -210,19 +212,15 @@ namespace TicketAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("SysDate")
@@ -238,12 +236,33 @@ namespace TicketAPI.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TicketAPI.Entities.Tickets", b =>
+                {
+                    b.HasOne("TicketAPI.Entities.Events", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("TicketAPI.Entities.Tokens", b =>
+                {
+                    b.HasOne("TicketAPI.Entities.Tickets", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
                 });
 #pragma warning restore 612, 618
         }

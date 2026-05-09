@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Panel de Administración - Partenón</title>
+        <link rel="stylesheet" href="css/admin-styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+    <body>
+        <div class="dashboard-layout">
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <img src="assets/images/logo-partenon.png" alt="Partenón Logo">
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="#" class="active"><i>📅</i> Eventos</a>
+                    <a href="#"><i>📊</i> Reportes</a>
+                    <a href="#"><i>⚙️</i> Ajustes</a>
+                </nav>
+                <div class="sidebar-footer">
+                    <p>© 2026 Partenón Zihuatanejo</p>
+                </div>
+            </aside>
+
+            <!-- Contenido Principal -->
+            <main class="main-content">
+                <header class="top-header">
+                    <div class="header-info">
+                        <h1>Gestión de Eventos</h1>
+                        <p>Panel de Control Administrativo</p>
+                    </div>
+                    <div class="user-profile">
+                        <span>Admin Vannya</span>
+                        <div class="avatar">V</div>
+                    </div>
+                </header>
+
+                <div class="admin-grid">
+                    <section class="admin-card form-section">
+                        <div class="card-header">
+                            <h3>📝 Registro de Evento</h3>
+                        </div>
+                        <form id="eventForm" class="event-form">
+                            <input type="hidden" id="editingEventId" value="">
+                            <div class="form-group">
+                                <label>Nombre del Evento</label>
+                                <input type="text" id="title" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Fecha y Hora</label>
+                                    <input type="datetime-local" id="eventDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Costo (MXN)</label>
+                                    <input type="number" id="price" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Cupo</label>
+                                    <input type="number" id="capacity" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Visibilidad</label>
+                                    <select id="sysVisible">
+                                        <option value="true">Público</option>
+                                        <option value="false">Oculto</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Descripción</label>
+                                <textarea id="description" rows="2"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Imagen</label>
+                                <input type="file" id="eventImageInput" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn-save">Guardar Evento</button>
+                        </form>
+                    </section>
+
+                    <section class="admin-card table-section">
+                        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+                            <h3 style="margin: 0;">📊 Eventos en Sistema</h3>
+                            <div class="table-filters" style="display: flex; gap: 15px; align-items: center; margin-right: 10px;">        
+                                <div style="position: relative;">
+                                    <i class="fas fa-search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 0.8rem;"></i>
+                                    <input type="text" id="searchTerm" placeholder="Buscar..." 
+                                        style="padding: 6px 10px 6px 30px; border-radius: 20px; border: 1px solid #ddd; font-size: 0.85rem; width: 140px;">
+                                </div>
+                                <select id="filterVisible" style="padding: 5px 10px; border-radius: 20px; border: 1px solid #ddd; font-size: 0.8rem; background: white; cursor: pointer;">
+                                    <option value="">Todos</option>
+                                    <option value="true">Públicos</option>
+                                    <option value="false">Ocultos</option>
+                                </select>
+                                <button onclick="clearFilters()" title="Limpiar Filtros" 
+                                    style="background: none; border: none; cursor: pointer; color: #007bff; padding: 5px; margin-left: 10px; transition: transform 0.2s;">
+                                    <i class="fas fa-sync-alt" style="font-size: 1rem;"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-scroll-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Evento</th>
+                                        <th>Fecha</th>
+                                        <th>Precio</th>
+                                        <th>Cupo</th>
+                                        <th>Visibilidad</th>
+                                        <th>Imagen</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script src="js/admin_events.js"></script>
+    </body>
+</html>

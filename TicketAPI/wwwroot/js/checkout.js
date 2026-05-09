@@ -49,54 +49,71 @@ async function intentarRegresarInicio() {
 
 // --- 2. PASAR A PAGAR (VALIDACIÓN Y RESUMEN) ---
 async function irAPagar() {
-    const tName = document.getElementById('titularName').value.trim();
-    const tLast = document.getElementById('titularLastName').value.trim();
-    const tEmail = document.getElementById('email').value.trim();
-    
-    const inputs = document.querySelectorAll('.qty-input');
-    let detalleHTML = `<p><strong>Titular:</strong> ${tName} ${tLast}</p><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
-    let totalActual = 0;
-    let tieneBoletos = false;
+    try {
+        const tName = document.getElementById('titularName').value.trim();
+        const tLast = document.getElementById('titularLastName').value.trim();
+        const tEmail = document.getElementById('email').value.trim();
+        
+        const inputs = document.querySelectorAll('.qty-input');
+        let detalleHTML = `<p><strong>Titular:</strong> ${tName} ${tLast}</p><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
+        let totalActual = 0;
+        let tieneBoletos = false;
 
-    inputs.forEach(input => {
-        const cantidad = parseInt(input.value) || 0;
-        const tipo = input.getAttribute('data-tipo');
-        if (cantidad > 0) {
-            tieneBoletos = true;
-            const sub = cantidad * (PRECIOS_BOLETOS[tipo] || 0);
-            totalActual += sub;
-            detalleHTML += `<p style="display:flex; justify-content:space-between; margin:5px 0;">
-                                <span>${cantidad}x ${tipo}</span> 
-                                <span>$${sub.toFixed(2)}</span>
-                            </p>`;
+        inputs.forEach(input => {
+            const cantidad = parseInt(input.value) || 0;
+            const tipo = input.getAttribute('data-tipo');
+            if (cantidad > 0) {
+                tieneBoletos = true;
+                const sub = cantidad * (PRECIOS_BOLETOS[tipo] || 0);
+                totalActual += sub;
+                detalleHTML += `<p style="display:flex; justify-content:space-between; margin:5px 0;">
+                                    <span>${cantidad}x ${tipo}</span> 
+                                    <span>$${sub.toFixed(2)}</span>
+                                </p>`;
+            }
+        });
+
+        // Validaciones básicas
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!tName || !tLast || !tEmail || !emailRegex.test(tEmail)) {
+            Swal.fire('Datos Incompletos', 'Ingresa nombre completo y un correo válido.', 'warning');
+            return;
         }
-    });
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-    if (!tName || !tLast || !tEmail || !emailRegex.test(tEmail)) {
-        Swal.fire('Datos Incompletos', 'Ingresa nombre completo y un correo válido.', 'warning');
-        return;
-    }
+        if (!tieneBoletos) {
+            Swal.fire('Sin Boletos', 'Selecciona al menos un boleto.', 'info');
+            return;
+        }
 
-    if (!tieneBoletos) {
-        Swal.fire('Sin Boletos', 'Selecciona al menos un boleto.', 'info');
-        return;
-    }
+        const confirmacion = await Swal.fire({
+            title: '¿Confirmar datos?',
+            html: `Titular: ${tName} ${tLast}<br>Total: <b>$${totalActual.toFixed(2)} MXN</b>`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, ir a pagar',
+            cancelButtonText: 'Corregir'
+        });
 
-    const confirmacion = await Swal.fire({
-        title: '¿Confirmar datos?',
-        html: `Titular: ${tName} ${tLast}<br>Total: <b>$${totalActual.toFixed(2)} MXN</b>`,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, ir a pagar',
-        cancelButtonText: 'Corregir'
-    });
+        if (confirmacion.isConfirmed) {
+            // --- REVISIÓN DE SEGURIDAD ---
+            const resContainer = document.getElementById('resumenCompraFinal');
+            const p1 = document.getElementById('paso1');
+            const p2 = document.getElementById('paso2');
 
-    if (confirmacion.isConfirmed) {
-        document.getElementById('resumenCompraFinal').innerHTML = detalleHTML;
-        document.getElementById('paso1').classList.add('hidden');
-        document.getElementById('paso2').classList.remove('hidden');
-        window.scrollTo(0, 0); 
+            if (!resContainer || !p1 || !p2) {
+                console.error("Faltan contenedores en el HTML: resumenCompraFinal, paso1 o paso2");
+                Swal.fire('Error de Sistema', 'No se encuentran los contenedores de pago.', 'error');
+                return;
+            }
+
+            resContainer.innerHTML = detalleHTML;
+            p1.classList.add('hidden');
+            p2.classList.remove('hidden');
+            window.scrollTo(0, 0); 
+        }
+    } catch (err) {
+        console.error("Error crítico en irAPagar:", err);
+        Swal.fire('Error', 'Ocurrió un error al procesar los campos: ' + err.message, 'error');
     }
 }
 
@@ -108,15 +125,40 @@ function volverADatos() {
 // --- 3. CÁLCULO DE PRECIOS CONFORME SE VA ELIGIENDO EL BOLETO ---
 function actualizarPrecios() {
     let subtotal = 0;
+    let resumenHTML = ""; // Variable para acumular el texto del resumen
     const inputs = document.querySelectorAll('.qty-input');
     
     inputs.forEach(input => {
         const cantidad = parseInt(input.value) || 0;
         const tipo = input.getAttribute('data-tipo');
-        subtotal += (cantidad * (PRECIOS_BOLETOS[tipo] || 0));
+        const precioUnitario = PRECIOS_BOLETOS[tipo] || 0;
+        const subtotalLinea = cantidad * precioUnitario;
+
+        subtotal += subtotalLinea;
+
+        // Si el usuario eligió al menos 1 de este tipo, lo agregamos al resumen
+        if (cantidad > 0) {
+            resumenHTML += `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span>${cantidad}x ${tipo}</span>
+                    <span style="font-weight: 600;">$${subtotalLinea.toFixed(2)}</span>
+                </div>`;
+        }
     });
 
+    // Actualizar el área de "Resumen de Compra" (el detalle texto)
+    const divDetalle = document.getElementById('detalle-resumen');
+    if (divDetalle) {
+        // Si hay subtotal, ponemos el desglose; si no, el mensaje de espera
+        divDetalle.innerHTML = subtotal > 0 
+            ? resumenHTML 
+            : '<p style="color: #9ca3af; font-style: italic;">Esperando selección...</p>';
+    }
+
+    // Formatear el precio total
     const formato = `$${subtotal.toFixed(2)}`;
+    
+    // Actualizar todos los elementos de precio que existan en el DOM
     const preliminar = document.getElementById('subtotal_preliminar');
     const sub = document.getElementById('subtotal');
     const tot = document.getElementById('totalPrice');
@@ -232,7 +274,7 @@ async function procesarCompra(listaAsistentes) {
         TotalAmount: parseFloat(document.getElementById('totalPrice').innerText.replace('$', ''))
     };
 
-    const response = await fetch('http://localhost:5000/checkout', {
+    const response = await fetch('http://192.168.0.80:5000/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/pdf' },
         body: JSON.stringify(pedidoFinal)

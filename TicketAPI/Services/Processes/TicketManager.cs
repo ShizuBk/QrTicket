@@ -20,8 +20,8 @@ namespace TicketAPI.Services.Processes
 {
     public class TicketManager
     {
-        private string Name;
-        private string SysPath;
+        private string? Name;
+        private string? SysPath;
         public string SaveLocalFile(string path, byte[] pdf)
         {
             this.Name = $"Ticket_{DateTime.Now.Ticks}.pdf";

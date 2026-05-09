@@ -6,7 +6,7 @@ namespace TicketAPI.Entities
     {
         public Guid Id { get; set; }
         public string Type { get; set; }
-        public int Fee { get; set; }
+        public decimal Fee { get; set; }
         public DateTime SysDate { get; set; }
         public DateTime SysUpdate {  get; set; }
         public bool SysVisible { get; set; }

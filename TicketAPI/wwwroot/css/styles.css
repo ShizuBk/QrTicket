@@ -1,0 +1,388 @@
+/* STYLES EN STAND BY POR REORDENAMIENTO DE ARCHIVOS */
+
+
+
+:root { 
+    --primary: #0078d4; 
+    --success: #27ae60;
+    --danger: #e74c3c; 
+    --dark: #201f1e; 
+    --white: #ffffff;
+    --overlay: rgba(0, 0, 0, 0.6); 
+}
+
+/* HEADER INDEX PARTENON ZIHUATANEJO */
+.hero-header h1 {
+    color: var(--white);
+    font-size: 3rem; 
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+    margin: 0 15 0px 0;
+}
+
+.hero-header p {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0 0 30px 0;
+}
+
+/* Contenedor Principal */
+.compact-mode {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.hero-header { text-align: center; margin-bottom: 30px; }
+
+/* Tarjetas */
+.tarifa-mini-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #ececec;
+}
+
+/* Franja para Boleto General (Verde) */
+.general-border {
+    border-left: 5px solid #27ae60; 
+}
+
+/* Franja para Evento Especial (Azul) */
+.special-border {
+    border-left: 5px solid #2196f3;
+}
+
+.card-info h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* --- ESTILOS DE BOTONES CON EFECTOS --- */
+
+.btn-info, .btn-buy {
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación suave tipo rebote */
+}
+
+/* Efecto general al pasar el mouse (crecer y subir un poco) */
+.btn-info:hover, .btn-buy:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Resaltado específico para Botón INFO (Gris) */
+.btn-info { 
+    background: #f0f0f0; 
+    color: #666; 
+}
+.btn-info:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+/* Resaltado específico para Botón COMPRAR GENERAL (Verde) */
+.btn-buy { 
+    background: #27ae60; 
+    color: white; 
+}
+.btn-buy:hover {
+    background: #219150; /* Verde un poco más oscuro */
+    filter: brightness(1.1); /* Le da un toque de luz */
+}
+
+/* Resaltado específico para Botón COMPRAR ESPECIAL (Azul) */
+.btn-blue { 
+    background: #2196f3; 
+}
+.btn-blue:hover {
+    background: #1976d2; /* Azul un poco más oscuro */
+    filter: brightness(1.1);
+}
+
+/* Efecto de "Click" (cuando presionas el botón) */
+.btn-info:active, .btn-buy:active {
+    transform: scale(0.95); /* Se encoge un poquito al pulsar */
+}
+
+/* Botón de cerrar tipo círculo rojo */
+.close-btn {
+    position: absolute;
+    top: -15px;      /* Lo saca un poco hacia arriba del cuadro blanco */
+    right: -15px;    /* Lo saca un poco hacia la derecha */
+    width: 35px;     /* Ancho fijo para que sea un círculo */
+    height: 35px;    /* Alto fijo */
+    background-color: #e74c3c; /* Color Rojo */
+    color: white;    /* La X en blanco */
+    border-radius: 50%; /* Lo hace circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombra para que resalte */
+    transition: all 0.3s ease;
+    border: 2px solid white; /* Un borde blanco para que despegue del fondo */
+    line-height: 1;
+}
+
+/* Efecto al pasar el mouse */
+.close-btn:hover {
+    background-color: #c0392b; /* Rojo más oscuro */
+    transform: scale(1.1);     /* Crece un poquito */
+}
+
+/* Asegúrate de que el modal tenga posición relativa para que la X se ubique bien */
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 300px;
+    position: relative; /* INDISPENSABLE para que la X se posicione respecto a esto */
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+
+/* Botones */
+.btn-info, .btn-buy {
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-info { background: #f0f0f0; color: #666; }
+.btn-buy { background: #27ae60; color: white; }
+.btn-blue { background: #2196f3; }
+
+/* Modal (Pop-up) similar al anterior pero con ancho controlado */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    width: 280px; /* Pop-up también pequeño */
+    text-align: justify;
+    position: relative;
+}
+
+/* BODY INDEX-CHECKOUT COMPRA DE BOLETOS */
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background-image: linear-gradient(var(--overlay), var(--overlay)), url('../assets/images/fondo-partenon.jpg');
+    background-size: cover; 
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    min-height: 100vh;
+    padding: 5px 20px; 
+    box-sizing: border-box;
+    overflow-y: auto; 
+}
+
+
+.index-container {
+    width: 98%;
+    max-width: 1400px;
+    margin-top: -5vh; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+
+/*CONTENEDOR CHECKOUT*/
+.checkout-container { 
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 40px; 
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+    margin: 0 auto;
+}
+
+/*BORDE CUADRO CANTIDAD DE BOLETOS CHECKOUT*/
+.qty-input {
+    width: 70px !important; 
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid var(--primary) !important;
+    background: white;
+}
+
+/*DATOS DE PAGO TARJETA*/
+.col-datos { 
+    flex: 1.5; 
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-pago { 
+    flex: 0.8;
+    min-width: 300px; 
+    position: sticky; 
+    top: 20px;
+    background: rgba(255, 255, 255, 0.4); 
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.nav-link { 
+    flex-basis: 100%; 
+    text-align: center; 
+    margin-top: 15px; 
+    color: var(--primary); 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-weight: 600;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 15px;
+}
+
+/*ENCABEZADO DATOS DE TITULAR CHECKOUT*/
+.header-ticket { text-align: left; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+.header-ticket h2 { margin: 0; color: var(--dark); font-size: 1.6rem; }
+
+/*ENCABEZADO METODO DE PAGO*/
+.section-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin: 20px 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-grid { 
+    display: grid; 
+    grid-template-columns: 2fr 1.2fr 1.2fr; 
+    gap: 20px; 
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--dark);
+}
+
+
+input, select { 
+    width: 100%; 
+    padding: 11px; 
+    border: 1px solid rgba(0, 0, 0, 0.3); 
+    border-radius: 6px; 
+    font-size: 0.85rem;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+
+.card-simulation {
+    margin-bottom: 35px;
+}
+
+.card-simulation .input-grid {
+    grid-template-columns: 100px 80px;
+    gap: 20px;
+}
+
+.payment-box {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.summary-row.total { 
+    font-weight: bold; 
+    font-size: 1.3rem; 
+    color: var(--success); 
+    border-top: 2px solid rgba(0,0,0,0.05); 
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+.btn-pay {
+    width: auto;
+    min-width: 220px;
+    display: block;
+    margin: 25px auto 0 auto; 
+    background: var(--success);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-pay:hover {
+    background: #219150;
+    transform: scale(1.02);
+}
+
+
+

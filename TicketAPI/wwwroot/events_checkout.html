@@ -1,0 +1,29 @@
+<div class="checkout-container">
+    <div class="event-info-panel">
+        <h2 id="event-name">Cargando evento...</h2>
+        <img id="event-image" src="img/placeholder-event.jpg" alt="Imagen del evento" class="img-fluid">
+        <p id="event-description"></p>
+        <p><strong>Precio unitario:</strong> <span id="unit-price"></span></p>
+    </div>
+
+    <form id="purchase-form">
+        <div class="form-group">
+            <label>Nombre del Titular</label>
+            <input type="text" id="buyer-name" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="buyer-email" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Cantidad de Boletos (Máximo 4)</label>
+            <input type="number" id="ticket-count" min="1" max="4" value="1" class="form-control">
+        </div>
+        
+        <div class="total-section">
+            <h3>Total a Pagar: <span id="total-price">$0.00</span></h3>
+        </div>
+
+        <button type="submit" class="btn-confirm">Finalizar Compra</button>
+    </form>
+</div>

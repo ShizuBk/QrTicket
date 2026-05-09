@@ -1,0 +1,282 @@
+:root {
+    --primary-blue: #1e3a8a;
+    --accent-blue: #2563eb;
+    --card-bg: #ffffff;
+    --text-dark: #1f2937;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-image: url('../assets/images/fondo-partenon.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.main-navbar {
+    width: 100%;
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--primary-blue);
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+
+.nav-title h1 {
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+@media (max-width: 600px) {
+    .nav-title { display: none; } 
+    .nav-container { padding: 0 15px; }
+}
+
+/* Botón Derecha 
+.btn-home {
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-home:hover {
+    background: white;
+    color: #111827;
+}*/
+
+
+.btn-home {
+    
+    color: white !important; 
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: 0.3s;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.btn-home:hover {
+    background: rgb(244, 244, 244);
+    border-color: #111827;
+}
+
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.card-panel {
+    background: var(--card-bg);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 950px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+    border-top: 6px solid var(--primary-blue);
+    display: flex;
+    flex-direction: column;
+}
+
+.header-ticket {
+    background: #f8fafc;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-ticket h2 { margin: 0; color: var(--primary-blue); font-size: 1.5rem; }
+
+.paso1-layout {
+    display: flex;
+    gap: 0;
+}
+
+/* Columna Izquierda: Datos del titular */
+.col-inputs {
+    flex: 1.5;
+    padding: 30px;
+    border-right: 1px solid #eee;
+}
+
+/* Columna Derecha: Selección de boletos */
+.col-sidebar {
+    flex: 1;
+    padding: 30px;
+    background-color: #f9fafb;
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: #4b5563; font-weight: 600; }
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Filas de boletos compactas */
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.ticket-row:last-child { border-bottom: none; }
+
+.qty-input {
+    width: 60px;
+    padding: 8px;
+    text-align: center;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.summary-box {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed #cbd5e0;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.btn-pay {
+    width: 100%;
+    background: var(--accent-blue);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-pay:hover { background: var(--primary-blue); }
+
+@media (max-width: 850px) {
+    .paso1-layout { flex-direction: column; }
+    .col-inputs { border-right: none; border-bottom: 1px solid #eee; }
+    body { background-attachment: scroll; }
+}
+
+
+.main-footer {
+    width: 100%;
+    background-color: #111827;
+    color: white;
+    padding: 15px 0; 
+    margin-top: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-container {
+    max-width: 1100px; 
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.municipio-name { color: white; font-size: 0.85rem; font-weight: 600; margin: 0; }
+.copyright { color: #9ca3af; font-size: 0.7rem; margin: 0; }
+
+.social-icons { display: flex; gap: 10px; }
+.social-link {
+    width: 30px; height: 30px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; color: white; text-decoration: none; font-size: 0.7rem;
+}
+.social-link:hover {
+    background: #1e3a8a;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}
+
+.social-link[title="Facebook"]:hover {
+    background-color: #1877f2;
+    border-color: transparent;
+}
+
+/* Color oficial de Instagram al pasar el mouse 
+.social-link[title="Instagram"]:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+}*/
+
+/* Color oficial de X (Twitter) al pasar el mouse 
+.social-link[title="Twitter/X"]:hover {
+    background-color: #000000;
+    border-color: transparent;
+}*/

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Portal de Acceso | Partenón Zihuatanejo</title>
+        <link rel="stylesheet" href="css/index-styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="main-navbar">
+                <div class="nav-container">
+                    <div class="nav-logo">
+                        <img src="../assets/images/logo-partenon.png" alt="Logo Partenón" class="logo-img">
+                    </div>
+
+                    <div class="nav-title">
+                        <h1>Selecciona tu tipo de acceso</h1>
+                    </div>
+
+                    <div class="nav-actions">
+                        <a href="https://partenon.zihuatanejodeazueta.gob.mx/" class="btn-home">Volver al Inicio</a>
+                    </div>
+                </div>
+            </nav>
+        <div class="main-wrapper">
+            <div class="tarifas-container">
+                <div class="tarifa-card">
+                    <div class="card-body">
+                        <h3>Acceso General</h3>
+                        <p>Acceso a instalaciones.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-info" onclick="openModal('infoGeneral')">Ver Info</button>
+                        <a href="general.html" class="btn-buy">Comprar</a>
+                    </div>
+                </div>
+
+                <div class="tarifa-card special">
+                    <div class="card-body">
+                        <h3>Evento Especial</h3>
+                        <p>Conciertos y eventos culturales exclusivos.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-info" onclick="openModal('infoEspecial')">Ver Info</button>
+                        <a href="events.html" class="btn-buy btn-blue">Ver Cartelera</a>
+                    </div>
+                </div>
+            </div>
+            
+            <section class="features-grid">
+                <div class="feature-item">
+                    <span class="feat-icon">📱</span>
+                    <div class="feat-text">
+                        <h3>Acceso Digital</h3>
+                        <p>Recibe tus boletos en PDF con código QR al instante.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feat-icon">🔒</span>
+                    <div class="feat-text">
+                        <h3>Compra Segura</h3>
+                        <p>Tus transacciones están protegidas y validadas.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feat-icon">⚡</span>
+                    <div class="feat-text">
+                        <h3>Sin Filas</h3>
+                        <p>Evita esperas y asegura tu lugar desde cualquier lugar.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                
+                <div id="infoGeneral" class="modal-text" style="display:none;">
+                    <h2>Boleto General</h2>
+                    <hr>
+                    <p>Acceso a las instalaciones en cualquier día, siempre que no haya un evento especial programado.</p>
+                    <p><strong>Costos:</strong> $20.00 - $100.00 MXN</p>
+                    <p class="small-note">Gratis para menores de 5 años, INAPAM y personas con discapacidad.</p>
+                </div>
+                
+                <div id="infoEspecial" class="modal-text" style="display:none;">
+                    <h2>Evento Especial</h2>
+                    <hr>
+                    <p>Boletos válidos únicamente para la fecha y el evento cultural seleccionado.</p>
+                    <p><strong>Nota:</strong> No se aceptan boletos de acceso general para estos eventos.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-container">
+                <div class="footer-info">
+                    <p class="municipio-name">H. Ayuntamiento Municipal de Zihuatanejo de Azueta.</p>
+                    <p class="copyright">&copy; 2026 Partenón Zihuatanejo. Todos los derechos reservados.</p>
+                </div>
+                
+                <div class="footer-social">
+                    
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61586548715392" class="social-link" title="Facebook" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">FB</span>
+                        </a>
+                        <a href="#" class="social-link">IG</a>
+                        <a href="#" class="social-link">TW</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            function openModal(infoId) {
+                document.getElementById('modalOverlay').style.display = 'flex';
+                document.getElementById('infoGeneral').style.display = 'none';
+                document.getElementById('infoEspecial').style.display = 'none';
+                document.getElementById(infoId).style.display = 'block';
+            }
+
+            function closeModal() {
+                document.getElementById('modalOverlay').style.display = 'none';
+            }
+
+            // Cierre de seguridad al hacer clic fuera del cuadro blanco
+            window.onclick = function(event) {
+                const overlay = document.getElementById('modalOverlay');
+                if (event.target == overlay) {
+                    closeModal();
+                }
+            }
+        </script>
+    </body>
+</html>

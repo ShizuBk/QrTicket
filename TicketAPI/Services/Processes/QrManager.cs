@@ -9,7 +9,7 @@ namespace TicketAPI.Services.Processes
 {
     public class QrManager
     {
-        private string file;
+        private string? file;
         public byte[] GetQrCodeBytes(string url, TicketDetailsDto ticketDetails)
         {
             file = GenFile(ticketDetails);
@@ -36,7 +36,7 @@ namespace TicketAPI.Services.Processes
             var nombre = ticketDetails.TitularName[0];
             var apellidoP = ticketDetails.TitularLastName[0];
             char apellidoM = 'X';
-            if (ticketDetails.TitularSurname is not null or "")
+            if (ticketDetails.TitularSurname is not null and not "")
                 apellidoM = ticketDetails.TitularSurname[0];
 
             using var sha = SHA256.Create();

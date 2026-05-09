@@ -1,0 +1,345 @@
+:root {
+    --primary-blue: #1e3a8a;
+    --card-bg: #ffffff;
+    --text-dark: #1f2937;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa al menos el alto de la pantalla */
+    font-family: 'Inter', sans-serif;
+    background-image: url('../assets/images/fondo-partenon.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.main-navbar {
+    width: 100%;
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--primary-blue);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+/* Título Central */
+.nav-title h1 {
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Botón Derecha */
+.btn-home {
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-home:hover {
+    background: white;
+    color: #111827;
+}
+
+.section-intro {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.access-text {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    margin: 0;
+}
+
+.divider-small {
+    width: 40px;
+    height: 3px;
+    background: #2563eb; 
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+    .nav-title { display: none; } 
+    .nav-container { padding: 0 15px; }
+}
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px 0; 
+}
+
+.hero-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-header h1 { 
+    font-size: 2rem;
+     margin: 0; 
+}
+
+/* Tarjetas con Color Sólido */
+.tarifas-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 25px;
+}   
+
+.tarifa-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px 20px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px; 
+    border-top: 5px solid #1e3a8a;
+}
+
+.tarifa-card.special {
+    border-top: 5px solid #2563eb; 
+}
+
+.card-body h3 {
+    font-size: 1.25rem; 
+    margin-bottom: 8px;
+}
+
+.card-body p {
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.card-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Botones */
+.btn-buy, .btn-info {
+    flex: 1;
+    padding: 10px; 
+    font-size: 0.85rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-buy { background: var(--primary-blue); color: white; }
+.btn-blue { background: #2563eb; }
+.btn-info { background: #f3f4f6; color: var(--text-dark); }
+
+.btn-buy:hover { opacity: 0.9; }
+.btn-info:hover { background: #e5e7eb; }
+
+/* MODAL - El Pop-up centrado */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 20px 25px rgba(0,0,0,0.25);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+.modal-text h2 { color: var(--primary-blue); margin-top: 0; }
+.modal-text hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
+.small-note { font-size: 0.8rem; color: #6b7280; background: #f9fafb; padding: 10px; border-radius: 5px; }
+
+@media (max-width: 600px) {
+    .tarifas-container { grid-template-columns: 1fr; }
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.feature-item {
+    background: #ffffff; 
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feat-icon {
+    font-size: 1.2rem;
+    background: #f3f4f6; 
+    padding: 10px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feat-text h3 {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.feat-text p {
+    margin: 4px 0 0 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.3;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+    }
+    
+    .feature-item {
+        padding: 15px;
+    }
+}
+
+.main-footer {
+    width: 100%;
+    background-color: #111827;
+    color: white;
+    padding: 15px 0; 
+    margin-top: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-container {
+    max-width: 1100px; 
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.municipio-name { color: white; font-size: 0.85rem; font-weight: 600; margin: 0; }
+.copyright { color: #9ca3af; font-size: 0.7rem; margin: 0; }
+
+.social-icons { display: flex; gap: 10px; }
+.social-link {
+    width: 30px; height: 30px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; color: white; text-decoration: none; font-size: 0.7rem;
+}
+.social-link:hover {
+    background: #1e3a8a;
+    transform: translateY(-3px);
+}
+
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}
+/* Color oficial de Facebook al pasar el mouse */
+.social-link[title="Facebook"]:hover {
+    background-color: #1877f2;
+    border-color: transparent;
+}
+
+/* Color oficial de Instagram al pasar el mouse 
+.social-link[title="Instagram"]:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+}*/
+
+/* Color oficial de X (Twitter) al pasar el mouse 
+.social-link[title="Twitter/X"]:hover {
+    background-color: #000000;
+    border-color: transparent;
+}*/

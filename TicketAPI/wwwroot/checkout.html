@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Acceso General | Partenón Zihuatanejo</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="css/styles.css">
+        <style>
+            :root {
+                --primary: #2c3e50;
+                --accent: #3498db;
+                --bg-body: #f4f7f6;
+            }
+
+            body { background-color: var(--bg-body); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+            .checkout-container {
+                max-width: 1100px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+
+            .card-panel {
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                padding: 30px;
+                margin-bottom: 20px;
+            }
+
+            .header-ticket h2 { color: var(--primary); font-size: 2rem; margin-bottom: 5px; }
+            .header-ticket p { color: #7f8c8d; font-size: 1.1rem; }
+
+            .paso1-layout {
+                display: grid;
+                grid-template-columns: 1fr 400px;
+                gap: 30px;
+            }
+
+            .section-title {
+                font-weight: 700;
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #f1f1f1;
+                color: var(--primary);
+            }
+
+            .ticket-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #fff;
+                padding: 15px 20px;
+                border-radius: 12px;
+                margin-bottom: 15px;
+                border: 1px solid #eef2f3;
+                transition: 0.3s;
+            }
+
+            .ticket-row:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+            .qty-input {
+                width: 80px;
+                padding: 10px;
+                border: 2px solid #eee;
+                border-radius: 8px;
+                font-weight: bold;
+                text-align: center;
+                outline: none;
+            }
+
+            .qty-input:focus { border-color: var(--accent); }
+
+            .summary-box {
+                background: #fcfcfc;
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid #eee;
+            }
+
+            .total-row {
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: var(--primary);
+                display: flex;
+                justify-content: space-between;
+                margin: 15px 0;
+            }
+
+            .btn-pay {
+                width: 100%;
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 18px;
+                border-radius: 10px;
+                font-size: 1.1rem;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .btn-pay:hover { background: #2980b9; transform: translateY(-2px); }
+
+            .hidden { display: none !important; }
+
+            @media (max-width: 900px) {
+                .paso1-layout { grid-template-columns: 1fr; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="checkout-container">
+            <div id="paso1" class="card-panel">
+                <div class="header-ticket" style="text-align: center; margin-bottom: 40px;">
+                    <h2>🏛️ Partenón Zihuatanejo</h2>
+                    <p>Acceso General al Recinto</p>
+                </div>
+
+                <div class="paso1-layout">
+                    <div class="col-inputs">
+                        <div class="section-title">Datos del Titular</div>
+                        <div class="input-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div class="form-group">
+                                <label>Nombre(s)</label>
+                                <input type="text" id="titularName" placeholder="Juan">
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido P.</label>
+                                <input type="text" id="titularLastName" placeholder="Pérez">
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido M.</label>
+                                <input type="text" id="titularSurname" placeholder="García">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Correo Electrónico (Para envío de QR)</label>
+                            <input type="email" id="email" placeholder="ejemplo@correo.com">
+                        </div>
+
+                        <div class="section-title" style="margin-top: 40px;">Categorías de Boletos</div>
+                        <div id="contenedorBoletos">
+                            <!-- General -->
+                            <div class="ticket-row">
+                                <div>
+                                    <strong>Adulto General</strong><br>
+                                    <small style="color:#7f8c8d">Visitantes nacionales y extranjeros</small>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <span>$100.00</span>
+                                    <input type="number" class="qty-input" data-tipo="General" value="0" min="0" oninput="actualizarPrecios()">
+                                </div>
+                            </div>
+                            <!-- Local -->
+                            <div class="ticket-row">
+                                <div>
+                                    <strong>Residente Local</strong><br>
+                                    <small style="color:#7f8c8d">Presentando identificación oficial</small>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <span>$50.00</span>
+                                    <input type="number" class="qty-input" data-tipo="Local" value="0" min="0" oninput="actualizarPrecios()">
+                                </div>
+                            </div>
+                            <!-- Estudiantes -->
+                            <div class="ticket-row">
+                                <div>
+                                    <strong>Estudiante / Niño</strong><br>
+                                    <small style="color:#7f8c8d">Menores de 17 años</small>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <span>$20.00</span>
+                                    <input type="number" class="qty-input" data-tipo="Estudiante" value="0" min="0" oninput="actualizarPrecios()">
+                                </div>
+                            </div>
+                            <!-- INAPAM -->
+                            <div class="ticket-row">
+                                <div>
+                                    <strong>INAPAM</strong><br>
+                                    <small style="color:#7f8c8d">Contar con indentificación</small>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <span>$20.00</span>
+                                    <input type="number" class="qty-input" data-tipo="INAPAM" value="0" min="0" oninput="actualizarPrecios()">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sidebar">
+                        <div class="summary-box">
+                            <div class="section-title">Resumen</div>
+                            <p style="font-size: 0.9rem; color: #666;">Selecciona tus boletos para ver el desglose.</p>
+                            <div class="total-row">
+                                <span>Total</span>
+                                <span id="subtotal_preliminar">$0.00</span>
+                            </div>
+                            <button class="btn-pay" onclick="irAPagar()">Continuar al Pago →</button>
+                            <p style="text-align:center; font-size: 0.8rem; margin-top: 15px; color: #999;">
+                                Pago 100% seguro y encriptado.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: PAGO -->
+            <div id="paso2" class="card-panel hidden">
+                <button class="btn-volver-capsula" onclick="volverADatos()" style="margin-bottom: 20px; background: none; border: 1px solid #ccc; padding: 10px 20px; border-radius: 20px; cursor:pointer;">
+                    ← Volver a selección
+                </button>
+
+                <div class="paso1-layout">
+                    <div class="col-resumen">
+                        <div class="section-title">Resumen de Compra</div>
+                        <div id="resumenCompraFinal" style="background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px dashed #ddd;">
+                        </div>
+                    </div>
+                    <div class="col-tarjeta">
+                        <div class="section-title">Datos de Pago</div>
+                        <div class="form-group">
+                            <label>Número de Tarjeta</label>
+                            <input type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                            <div class="form-group">
+                                <label>Expira (MM/AA)</label>
+                                <input type="text" id="exp" placeholder="MM/AA">
+                            </div>
+                            <div class="form-group">
+                                <label>CCV</label>
+                                <input type="password" id="ccv" placeholder="123">
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Subtotal:</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Pagas:</span>
+                                <span id="totalPrice">$0.00</span>
+                            </div>
+                            <button class="btn-pay" id="btnPagar" onclick="simularCobro()">Pagar y Obtener Ticket</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/main.js"></script>
+    </body>
+</html>

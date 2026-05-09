@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.Replication;
-using System.Text.Encodings.Web;
 using TicketAPI.Dto;
 using TicketAPI.Interfaces;
-using TicketAPI.Services;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TicketAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TicketPurchaseController : ControllerBase
     {
-
         private readonly ITicketPurchaseService _service;
+        private readonly IManagementService _managementService;
 
-        public TicketPurchaseController(ITicketPurchaseService ticketService)
+        public TicketPurchaseController(ITicketPurchaseService ticketService, IManagementService managementService)
         {
-            _service = ticketService;   
+            _service = ticketService;
+            _managementService = managementService; 
         }
 
         [HttpPost("/checkout")]
@@ -26,9 +27,8 @@ namespace TicketAPI.Controllers
         {
             try
             {
-                var ticketResult = _service.GeneratePdfWithTemplate(purchaseDetails).Result;
-
-                var result = _service.GetTicketById(ticketResult).Result;
+                var ticketResult = await _service.GeneratePdfWithTemplate(purchaseDetails);
+                var result = await _service.GetTicketById(ticketResult);
 
                 return File(result.Data, "application/pdf", result.Name);
             }
@@ -39,16 +39,16 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet("/download")]
-        public IActionResult Download(Guid id) 
+        public async Task<IActionResult> Download(Guid id) 
         {
             try
             {
-                var result = _service.GetTicketById(id);
+                var result = await _service.GetTicketById(id);
 
                 if(result == null)
                     return NotFound();
 
-                return File(result.Result.Data, "application/pdf", result.Result.Name);
+                return File(result.Data, "application/pdf", result.Name);
             }
             catch (Exception ex)
             {
@@ -57,16 +57,16 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet("/search")]
-        public IActionResult Search(TicketSearchDto ticketSearch)
+        public async Task<IActionResult> Search([FromQuery] TicketSearchDto ticketSearch)
         {
             try
             {
-                var result = _service.GetTicketBySearch(ticketSearch);
+                var result = await _service.GetTicketBySearch(ticketSearch);
 
                 if (result == null)
                     return NotFound("No se encontró el ticket buscado");
 
-                return File(result.Result.Data, "application/pdf", result.Result.Name);
+                return File(result.Data, "application/pdf", result.Name);
             }
             catch (Exception ex)
             {
@@ -74,10 +74,12 @@ namespace TicketAPI.Controllers
             }
         }
 
+     
         [HttpPost("/confirm")]
-        public Guid ConfirmPurchase(TicketDetailsDto ticketDetails)
+        public async Task<Guid> ConfirmPurchase(TicketDetailsDto ticketDetails)
         {
-            var result = _service.ConfirmPurchase(ticketDetails);
+            // Ahora sí, el await es válido porque el servicio devuelve Task<Guid>
+            var result = await _service.ConfirmPurchase(ticketDetails);
             return result;
         }
 
@@ -88,7 +90,7 @@ namespace TicketAPI.Controllers
             {
                 var result = await _service.GetFeeList();
 
-                if(result == null || result.Any())
+                if(result == null || !result.Any())
                     return NotFound("No hay tarifas declaradas");
 
                 return Ok(result);
@@ -99,7 +101,6 @@ namespace TicketAPI.Controllers
             }
         }
 
-
         [HttpGet("/events")]
         public async Task<IActionResult> GetEvents()
         {
@@ -107,7 +108,7 @@ namespace TicketAPI.Controllers
             {
                 var result = await _service.GetEventDetails();
 
-                if (result == null || result.Any())
+                if (result == null || !result.Any())
                     return NotFound("No hay eventos disponibles");
 
                 return Ok(result);
@@ -118,6 +119,20 @@ namespace TicketAPI.Controllers
             }
         }
 
+        [HttpGet("public")] 
+        public async Task<ActionResult<List<EventDetailsResponseDto>>> GetPublicEvents()
+        {
+            try 
+            {
+                var eventos = await _managementService.GetPublicEvents();
+                return Ok(eventos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Error al obtener la cartelera", error = ex.Message });
+            }
+        }      
+
         [HttpGet("/scan/{file}")]
         public async Task<IActionResult> Scan(string file)
         {
@@ -125,9 +140,6 @@ namespace TicketAPI.Controllers
             {
                 var result = await _service.VerifyToken(file);
                 var page = GenValidationPage(result, file);
-
-                var acceptHeader = Request.Headers.Accept;
-                Response.ContentType = "text/html; charset=utf-8";
 
                 return Content(page, "text/html");
             }
@@ -146,7 +158,6 @@ namespace TicketAPI.Controllers
                 : "Ticket no válido o fue utilizado anteriormente.";
 
             return $@"
-
 <!DOCTYPE html>
 <html lang='es'>
 <head>
@@ -158,6 +169,7 @@ body{{
 font-family: Arial, sans-serif;
 display: flex;
 justify-content: center;
+align-items: center;
 height: 100vh;
 margin: 0;
 background: #f0f0f0;
@@ -165,7 +177,7 @@ background: #f0f0f0;
 .container {{
 text-align: center;
 padding: 40px;
-border-radiius: 10px;
+border-radius: 10px;
 background: white;
 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 border-top: 5px solid {color}
@@ -193,7 +205,6 @@ margin: 20px 0;
 </body>
 </html>
 ";
-
         }
 
         private string HtmlEncode(string text)
